@@ -20,7 +20,10 @@ public class DetailPresenter implements DetailContract.Presenter {
 
   public DetailPresenter(AppMediator mediator) {
     this.mediator = mediator;
-    state = mediator.getDetailState();
+
+    //Hace que se guarde bien el estado al girar la pantalla
+      state= mediator.getDetailState();
+
 
 
   }
