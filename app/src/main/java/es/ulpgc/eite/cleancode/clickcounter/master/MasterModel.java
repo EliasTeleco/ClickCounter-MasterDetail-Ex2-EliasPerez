@@ -25,7 +25,7 @@ public class MasterModel implements MasterContract.Model {
   public void onRestartScreen(List<CounterData> datasource) {
     // Log.e(TAG, "onRestartScreen()");
 
-    // TODO: add code if is necessary
+    this.datasource = datasource;
   }
 
   @Override
@@ -40,5 +40,11 @@ public class MasterModel implements MasterContract.Model {
     // Log.e(TAG, "onDataFromPreviousScreen()");
 
     // TODO: add code if is necessary
+  }
+
+  @Override
+  public void addNumero() {
+    datasource.add(new CounterData());
+
   }
 }

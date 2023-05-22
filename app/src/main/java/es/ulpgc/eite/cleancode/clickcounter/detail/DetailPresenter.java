@@ -7,6 +7,7 @@ import java.lang.ref.WeakReference;
 import es.ulpgc.eite.cleancode.clickcounter.app.AppMediator;
 import es.ulpgc.eite.cleancode.clickcounter.app.DetailToMasterState;
 import es.ulpgc.eite.cleancode.clickcounter.app.MasterToDetailState;
+import es.ulpgc.eite.cleancode.clickcounter.master.MasterActivity;
 
 public class DetailPresenter implements DetailContract.Presenter {
 
@@ -19,7 +20,9 @@ public class DetailPresenter implements DetailContract.Presenter {
 
   public DetailPresenter(AppMediator mediator) {
     this.mediator = mediator;
-    
+    state = mediator.getDetailState();
+
+
   }
 
 
@@ -28,16 +31,24 @@ public class DetailPresenter implements DetailContract.Presenter {
     Log.e(TAG, "onStart()");
 
     // initialize the state 
-    state = new DetailState();
+    if (state == null) {
+      state = new DetailState();
+    }
 
-    // TODO: add code if is necessary
+    MasterToDetailState savedState = getStateFromPreviousScreen();
+    if (savedState != null) {
+      model.onDataFromPreviousScreen(savedState.data);
+      state.clicks = savedState.clicks;
+    }
+
   }
 
   @Override
   public void onRestart() {
     Log.e(TAG, "onRestart()");
 
-    // TODO: add code if is necessary
+
+    model.onRestartScreen(state.data);
   }
 
   @Override
@@ -45,7 +56,10 @@ public class DetailPresenter implements DetailContract.Presenter {
     Log.e(TAG, "onResume()");
 
     // TODO: add code if is necessary
+    state.data = model.getStoredData();
 
+    // update the view
+    view.get().onDataUpdated(state);
   }
 
   @Override
@@ -53,7 +67,13 @@ public class DetailPresenter implements DetailContract.Presenter {
     Log.e(TAG, "onBackPressed()");
 
     // TODO: add code if is necessary
+    DetailToMasterState estado= new DetailToMasterState();
+    estado.data= state.data;
+    estado.clicks= state.clicks;
+    passStateToPreviousScreen(estado);
   }
+
+
 
   @Override
   public void onPause() {
@@ -73,7 +93,13 @@ public class DetailPresenter implements DetailContract.Presenter {
   public void onButtonPressed() {
     Log.e(TAG, "onButtonPressed()");
 
-    // TODO: add code if is necessary
+    model.aumentarNumero();
+    state.data = model.getStoredData();
+
+    int b = Integer.parseInt(state.clicks);
+    b ++;
+    state.clicks = b + "";
+    onResume();
   }
 
   private void passStateToPreviousScreen(DetailToMasterState state) {

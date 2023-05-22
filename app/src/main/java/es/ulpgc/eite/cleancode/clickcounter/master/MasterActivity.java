@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import es.ulpgc.eite.cleancode.clickcounter.R;
 import es.ulpgc.eite.cleancode.clickcounter.app.AppMediator;
 import es.ulpgc.eite.cleancode.clickcounter.data.CounterData;
+import es.ulpgc.eite.cleancode.clickcounter.detail.DetailActivity;
 
 public class MasterActivity
     extends AppCompatActivity implements MasterContract.View {
@@ -85,6 +86,7 @@ public class MasterActivity
           @Override
           public void onClick(View view) {
             CounterData data = (CounterData) view.getTag();
+            presenter.selectElement(data);
 
           }
         })
@@ -93,7 +95,7 @@ public class MasterActivity
 
   @Override
   public void navigateToNextScreen() {
-    Intent intent = new Intent(this, MasterActivity.class);
+    Intent intent = new Intent(this, DetailActivity.class);
     startActivity(intent);
   }
 

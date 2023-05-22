@@ -14,8 +14,8 @@ public class AppMediator  {
   private MasterToDetailState masterToDetailState;
 
   private AppMediator() {
-    //detailState= new DetailState();
-    //masterState= new MasterState();
+    detailState= new DetailState();
+    masterState= new MasterState();
 
   }
 

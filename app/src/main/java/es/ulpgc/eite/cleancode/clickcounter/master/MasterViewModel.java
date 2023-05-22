@@ -9,4 +9,6 @@ public class MasterViewModel {
 
   // put the view state here
   public List<CounterData> datasource = new ArrayList<>();
+    public Long id;
+    public String clicks;
 }

@@ -7,6 +7,7 @@ import java.lang.ref.WeakReference;
 import es.ulpgc.eite.cleancode.clickcounter.app.AppMediator;
 import es.ulpgc.eite.cleancode.clickcounter.app.DetailToMasterState;
 import es.ulpgc.eite.cleancode.clickcounter.app.MasterToDetailState;
+import es.ulpgc.eite.cleancode.clickcounter.data.CounterData;
 
 public class MasterPresenter implements MasterContract.Presenter {
 
@@ -32,13 +33,13 @@ public class MasterPresenter implements MasterContract.Presenter {
     if (state == null) {
       state = new MasterState();
     }
+    state.clicks = "0";
   }
 
   @Override
   public void onRestart() {
     Log.e(TAG, "onRestart()");
 
-    // TODO: add code if is
     model.onRestartScreen(state.datasource);
 
   }
@@ -47,8 +48,24 @@ public class MasterPresenter implements MasterContract.Presenter {
   public void onResume() {
     Log.e(TAG, "onResume()");
 
-    // TODO: add code if is necessary
+    DetailToMasterState savedState = getStateFromNextScreen();
+    if (savedState != null) {
 
+      // update the model if is necessary
+      for(int i = 0; i < state.datasource.size(); i ++){
+        if(state.datasource.get(i).id == state.id){
+          int a = Integer.parseInt(savedState.data);
+          state.datasource.get(i).value = a;
+        }
+      }
+      state.clicks = savedState.clicks;
+
+    }
+
+    // call the model and update the state
+    state.datasource = model.getStoredData();
+    // update the view
+    view.get().onDataUpdated(state);
   }
 
   @Override
@@ -83,7 +100,11 @@ public class MasterPresenter implements MasterContract.Presenter {
 
   @Override
   public void onButtonPressed() {
+
     Log.e(TAG, "onButtonPressed()");
+    model.addNumero();
+    state.datasource = model.getStoredData();
+    onResume();
   }
 
   @Override
@@ -94,6 +115,24 @@ public class MasterPresenter implements MasterContract.Presenter {
   @Override
   public void injectModel(MasterContract.Model model) {
     this.model = model;
+  }
+
+  @Override
+  public void selectElement(CounterData elemento) {
+
+    MasterToDetailState estado = new MasterToDetailState();
+
+    state.id = elemento.id;
+
+    int a = elemento.value + 1;
+    estado.data = a + "";
+
+    int b = Integer.parseInt(state.clicks);
+    b ++;
+    estado.clicks = b + "";
+
+    passStateToNextScreen(estado);
+    view.get().navigateToNextScreen();
   }
 
 }

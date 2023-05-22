@@ -28,6 +28,8 @@ public interface MasterContract {
     void onPause();
     void onDestroy();
     void onButtonPressed();
+
+    void selectElement(CounterData elemento);
   }
 
   interface Model {
@@ -35,6 +37,8 @@ public interface MasterContract {
     void onDataFromNextScreen(String data);
     void onRestartScreen(List<CounterData> datasource);
     void onDataFromPreviousScreen(String data);
+
+    void addNumero();
   }
 
 

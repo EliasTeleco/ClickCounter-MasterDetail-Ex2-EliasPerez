@@ -31,6 +31,8 @@ public interface DetailContract {
     void onDataFromNextScreen(String data);
     void onRestartScreen(String data);
     void onDataFromPreviousScreen(String data);
+
+      void aumentarNumero();
   }
 
 

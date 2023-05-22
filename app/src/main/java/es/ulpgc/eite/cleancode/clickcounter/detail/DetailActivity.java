@@ -73,7 +73,7 @@ public class DetailActivity
 
     // deal with the data
     ((TextView) findViewById(R.id.counter)).setText(viewModel.data);
-  }
+    ((TextView) findViewById(R.id.clicks)).setText(viewModel.clicks);  }
 
   @Override
   public void injectPresenter(DetailContract.Presenter presenter) {

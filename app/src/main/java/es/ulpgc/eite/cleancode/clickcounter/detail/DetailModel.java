@@ -16,7 +16,7 @@ public class DetailModel implements DetailContract.Model {
   public void onRestartScreen(String data) {
     // Log.e(TAG, "onRestartScreen()");
 
-    // TODO: add code if is necessary
+    this.data = data;
   }
 
   @Override
@@ -30,6 +30,13 @@ public class DetailModel implements DetailContract.Model {
   public void onDataFromPreviousScreen(String data) {
     // Log.e(TAG, "onDataFromPreviousScreen()");
 
-    // TODO: add code if is necessary
+    this.data= data;
+  }
+
+  @Override
+  public void aumentarNumero() {
+    int a = Integer.parseInt(this.data);
+    a ++;
+    this.data = a + "";
   }
 }
